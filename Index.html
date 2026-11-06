@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stray Kids Special Live Concert - Dedicated Edition</title>
 
-    <!-- ÍCONO DE LA PÁGINA -->
     <link rel="icon" type="image/jpeg" href="./icom.jpg">
-    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -74,15 +72,8 @@
             animation: beamSwing 5s ease-in-out infinite alternate;
         }
 
-        .beam-pink {
-            background: linear-gradient(180deg, rgba(255, 42, 117, 0.45) 0%, rgba(255, 42, 117, 0) 85%);
-            animation-duration: 6.5s;
-        }
-
-        .beam-cyan {
-            background: linear-gradient(180deg, rgba(0, 240, 255, 0.35) 0%, rgba(0, 240, 255, 0) 85%);
-            animation-duration: 4.5s;
-        }
+        .beam-pink { background: linear-gradient(180deg, rgba(255, 42, 117, 0.45) 0%, rgba(255, 42, 117, 0) 85%); animation-duration: 6.5s; }
+        .beam-cyan { background: linear-gradient(180deg, rgba(0, 240, 255, 0.35) 0%, rgba(0, 240, 255, 0) 85%); animation-duration: 4.5s; }
 
         @keyframes beamSwing {
             0% { transform: rotate(-35deg); }
@@ -128,17 +119,16 @@
     <!-- AUDIO "After You.mp3" -->
     <audio id="bg-music" src="./After You.mp3" loop preload="auto"></audio>
 
-    <!-- PANTALLA DE INICIO (PARA GARANTIZAR REPRODUCCIÓN AUTOMÁTICA DE AUDIO) -->
-    <div id="startOverlay" class="fixed inset-0 z-50 bg-black/95 flex flex-col items-center justify-center p-6 text-center transition-opacity duration-500">
-        <div class="w-24 h-24 rounded-3xl overflow-hidden border-2 border-skz-pink shadow-2xl shadow-skz-red/80 mb-6 animate-bounce">
-            <img src="./icom.jpg" alt="SKZ Logo" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/100x100/FF0033/FFF?text=SKZ'">
+    <!-- PANTALLA DE INICIO -->
+    <div id="startOverlay" style="position: fixed; inset: 0; z-index: 99999; background: rgba(0,0,0,0.96); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center;">
+        <div style="width: 90px; height: 90px; border-radius: 20px; overflow: hidden; border: 2px solid #FF2A75; margin-bottom: 20px; box-shadow: 0 0 25px rgba(255,0,51,0.8);">
+            <img src="./icom.jpg" alt="SKZ Logo" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://placehold.co/100x100/FF0033/FFF?text=SKZ'">
         </div>
-        <h1 class="font-orbitron font-black text-3xl sm:text-5xl text-glow-red tracking-widest mb-3">STRAY KIDS CONCERT</h1>
-        <p class="font-rajdhani text-sm sm:text-base text-skz-pink font-bold tracking-wider mb-8">EDICIÓN ESPECIAL • "AFTER YOU"</p>
+        <h1 style="font-family:'Orbitron',sans-serif; font-weight:900; font-size:clamp(22px, 4vw, 40px); color:#FF0033; text-shadow:0 0 15px #FF0033; margin-bottom:10px;">STRAY KIDS CONCERT</h1>
+        <p style="font-family:'Rajdhani',sans-serif; color:#FF2A75; font-weight:bold; font-size:16px; margin-bottom:30px;">EDICIÓN ESPECIAL • "AFTER YOU"</p>
         
-        <button onclick="startConcert()" class="py-5 px-10 bg-gradient-to-r from-skz-red via-skz-pink to-red-600 rounded-2xl font-orbitron font-extrabold text-base tracking-widest text-white btn-glow-bias transition active:scale-95 flex items-center gap-3">
-            <i class="fa-solid fa-play text-xl"></i>
-            ENTRAR AL CONCIERTO
+        <button onclick="startConcert()" style="padding: 18px 36px; background: linear-gradient(135deg, #FF0033, #FF2A75); border: none; border-radius: 16px; font-family:'Orbitron',sans-serif; font-weight:900; font-size:16px; color:#ffffff; cursor: pointer; box-shadow: 0 0 25px #FF2A75;">
+            <i class="fa-solid fa-play" style="margin-right: 10px;"></i> ENTRAR AL CONCIERTO
         </button>
     </div>
 
@@ -177,7 +167,7 @@
     <!-- MAIN INTERFACE -->
     <main class="relative z-20 grid grid-cols-1 lg:grid-cols-12 gap-6 p-4 md:p-8 max-w-7xl mx-auto w-full my-auto items-center">
 
-        <!-- STAGE CENTRAL LED SCREEN (8 COLS) -->
+        <!-- STAGE CENTRAL LED SCREEN -->
         <section class="lg:col-span-8 flex flex-col gap-4">
             <div class="glass-concert rounded-3xl p-4 md:p-6 border-2 border-skz-red/50 shadow-2xl relative overflow-hidden">
                 
@@ -190,11 +180,7 @@
 
                 <div class="led-screen-effect relative w-full h-80 sm:h-96 rounded-2xl overflow-hidden bg-black flex items-center justify-center border border-gray-800">
                     <div id="memberDisplayContainer" class="w-full h-full relative">
-                        <img id="memberImage" 
-                             src="" 
-                             alt="Stray Kids Member" 
-                             onerror="handleImageError()"
-                             class="w-full h-full object-cover transform scale-105 transition-all duration-700 filter brightness-110 contrast-105">
+                        <img id="memberImage" src="" alt="Stray Kids Member" onerror="handleImageError()" class="w-full h-full object-cover transform scale-105 transition-all duration-700 filter brightness-110 contrast-105">
 
                         <div id="svgFallback" class="hidden absolute inset-0 bg-gradient-to-br from-black via-skz-darkRed to-black flex flex-col items-center justify-center p-6 text-center">
                             <svg class="w-24 h-24 text-skz-pink animate-pulse mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -211,7 +197,7 @@
                             BANG CHAN • LEADER
                         </span>
                         <h2 id="memberName" class="font-orbitron font-black text-2xl md:text-4xl text-white text-glow-red mt-2">
-                            BANG CHAN (🐺)
+                            BANG CHAN 
                         </h2>
                     </div>
 
@@ -247,6 +233,241 @@
             </div>
         </section>
 
-        <!-- COLUMNA DERECHA (4 COLS) -->
+        <!-- COLUMNA DERECHA -->
         <section class="lg:col-span-4 flex flex-col gap-5">
-            <div class="glass-concert p-6 rounded-3xl text-center flex flex-col items-center border-2 border-skz-pink
+            <div class="glass-concert p-6 rounded-3xl text-center flex flex-col items-center border-2 border-skz-pink relative overflow-hidden group">
+                <div class="w-16 h-16 rounded-full bg-skz-pink/20 border-2 border-skz-pink flex items-center justify-center mb-3 shadow-lg shadow-skz-pink/50 group-hover:scale-110 transition duration-300">
+                    <i class="fa-solid fa-heart-circle-bolt text-3xl text-skz-pink animate-pulse"></i>
+                </div>
+                
+                <h3 class="font-orbitron font-bold text-xl text-white text-glow-pink mb-1">STAY DEDICATION</h3>
+                <p class="text-xs text-gray-300 font-rajdhani mb-5">Carta especial para tu bias</p>
+
+                <button onclick="openBiasModal()" class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-skz-red via-skz-pink to-red-600 text-white font-orbitron font-extrabold text-sm tracking-wider btn-glow-bias transition active:scale-95 flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-envelope-open-text text-lg"></i>
+                    MI BIAS FAVORITO
+                </button>
+            </div>
+
+            <div class="glass-concert p-5 rounded-3xl flex flex-col gap-3">
+                <span class="text-xs font-orbitron text-gray-400 tracking-wider flex items-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles text-skz-pink"></i> STAGE SPECIAL EFFECTS
+                </span>
+                
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="triggerConfetti()" class="py-3 px-3 bg-gray-900/90 hover:bg-skz-pink/30 border border-skz-pink/40 rounded-xl text-xs font-orbitron flex items-center justify-center gap-2 transition active:scale-95">
+                        <i class="fa-solid fa-ribbon text-skz-pink"></i> CONFETTI
+                    </button>
+                    <button onclick="triggerFireworks()" class="py-3 px-3 bg-gray-900/90 hover:bg-orange-500/30 border border-orange-500/40 rounded-xl text-xs font-orbitron flex items-center justify-center gap-2 transition active:scale-95">
+                        <i class="fa-solid fa-fire text-orange-400"></i> FUEGOS
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- CARTA MODAL -->
+    <div id="biasModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 hidden transition-opacity duration-300">
+        <div class="holo-card rounded-3xl p-6 sm:p-10 max-w-xl w-full border-2 border-skz-pink relative text-center text-white shadow-2xl">
+            <button onclick="closeBiasModal()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/60 hover:bg-skz-pink text-white flex items-center justify-center border border-gray-600 transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="inline-block px-4 py-1 bg-skz-pink/30 border border-skz-pink rounded-full text-xs font-orbitron tracking-widest text-white mb-2">
+                MY ULTIMATE BIAS IN THE ENTIRE WORLD
+            </div>
+            
+            <h2 class="font-orbitron font-black text-2xl sm:text-3xl text-glow-pink mb-1">PARA MI BIAS FAVORITA 👑❤️</h2>
+            <p class="text-sm font-rajdhani text-gray-300 mb-4">Entre todos los idols del mundo, tú siempre serás mi número uno.</p>
+
+            <div class="w-full h-36 rounded-2xl bg-gradient-to-r from-red-950/80 via-pink-950/80 to-black border border-skz-pink/50 flex flex-col items-center justify-center relative overflow-hidden shadow-inner my-3">
+                <i class="fa-solid fa-heart text-6xl text-skz-pink animate-pulse drop-shadow-[0_0_15px_rgba(255,42,117,0.8)]"></i>
+                <span class="font-romantic text-3xl text-white mt-2">Stray Kids Live For You</span>
+            </div>
+
+            <div class="text-left mt-4">
+                <label class="block text-xs font-orbitron text-skz-pink mb-2">DEDICATORIA DE AMOR:</label>
+                <p id="biasMessageText" rows="8" class="w-full bg-black/90 border border-skz-pink/50 rounded-xl p-4 text-sm sm:text-base font-montserrat text-white leading-relaxed placeholder-gray-500 focus:outline-none focus:border-skz-pink resize-none shadow-inner">
+Para el amor de mi vida:<br>
+En este concierto y en todos los escenarios del mundo, tú eres mi Bias Favorita tu Jenifer Mi fosforito. No hay canción de Stray Kids que supere lo increíble que es estar a tu lado. ¡Te amo infinitamente! 💖✨ <br><br>
+
+Hace un año y tres meses que mi vida cambió. Todo empezó a verse desde otra perspectiva: las historias en mi mente salían una a una contigo. Dragones, pokemones, emociones que no cualquiera podría intentar explicar.<br><br>
+
+Contigo cambié a alguien mejor, me enseñaste a ver la mejor historia de todas, y es la de nosotros. Por eso siempre eres la protagonista de todas ellas, porque After you siempre me siento vivo.<br><br>
+
+Gracias por estos meses juntos; mucho en mí se siente como si el hielo que llevaba dentro desapareció, como si tu calor y tu fuego se fusionaron conmigo. Aunque seamos tan diferentes, también somos muy iguales, y no importa dónde ni cuándo, yo estaré siempre contigo.
+                </p>
+            </div>
+
+            <div class="mt-6">
+                <button onclick="closeBiasModal()" class="w-full py-4 bg-gradient-to-r from-skz-red via-skz-pink to-red-600 hover:opacity-90 rounded-2xl font-orbitron font-extrabold text-sm tracking-widest text-white border border-skz-pink transition active:scale-95 shadow-lg shadow-skz-pink/40">
+                    CERRAR CARTA
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="relative z-20 w-full p-4 text-center text-xs font-rajdhani text-gray-500 glass-concert border-t border-skz-red/20">
+        <p>STRAY KIDS WORLD TOUR • REPRODUCIENDO "AFTER YOU.MP3" • DEDICADO A MI BIAS FAVORITA</p>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        const membersData = [
+            { name: "BANG CHAN ", image: "./bangchan.jpg", badge: "BANG CHAN • LEADER & 3RACHA" },
+            { name: "LEE KNOW ", image: "./leeknow.jpg", badge: "LEE KNOW • DANCE RACHA" },
+            { name: "CHANGBIN ", image: "./changbin.jpg", badge: "CHANGBIN • RAPPER & 3RACHA" },
+            { name: "HYUNJIN ", image: "./hyunjin.jpg", badge: "HYUNJIN • DANCE & VISUAL" },
+            { name: "HAN ", image: "./han.jpg", badge: "HAN • VOCAL & 3RACHA" },
+            { name: "FELIX ", image: "./felix.jpg", badge: "FELIX • DEEP VOICE & DANCE" },
+            { name: "SEUNGMIN ", image: "./seungmin.jpg", badge: "SEUNGMIN • MAIN VOCAL" },
+            { name: "I.N ", image: "./in.jpg", badge: "I.N • VOCAL & MAKNAE" }
+        ];
+
+        let currentMemberIdx = 0;
+        const audio = document.getElementById('bg-music');
+        const playBtnIcon = document.getElementById('playPauseIcon');
+
+        function startConcert() {
+            const overlay = document.getElementById('startOverlay');
+            if (overlay) {
+                overlay.remove(); // Elimina el elemento de la pantalla por completo
+            }
+            if (audio) {
+                audio.play().catch(err => {
+                    console.log("Audio block by browser policy, user can play manually:", err);
+                });
+            }
+        }
+
+        function renderThumbnails() {
+            const container = document.getElementById('thumbsContainer');
+            if (!container) return;
+            container.innerHTML = '';
+            membersData.forEach((m, idx) => {
+                const btn = document.createElement('button');
+                btn.className = `h-10 rounded-lg overflow-hidden border ${idx === currentMemberIdx ? 'border-skz-pink scale-105 ring-2 ring-skz-pink' : 'border-gray-700 opacity-60'} transition`;
+                btn.onclick = () => selectMember(idx);
+                btn.innerHTML = `<img src="${m.image}" alt="${m.name}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/100x100/660014/FFF?text=${encodeURIComponent(m.name.split(' ')[0])}'">`;
+                container.appendChild(btn);
+            });
+        }
+
+        function selectMember(idx) {
+            currentMemberIdx = idx;
+            const member = membersData[currentMemberIdx];
+            const imgEl = document.getElementById('memberImage');
+            const svgFallback = document.getElementById('svgFallback');
+
+            if (svgFallback) svgFallback.classList.add('hidden');
+            if (imgEl) {
+                imgEl.classList.remove('hidden');
+                imgEl.style.opacity = '0.3';
+                setTimeout(() => {
+                    imgEl.src = member.image;
+                    document.getElementById('memberName').innerText = member.name;
+                    document.getElementById('memberBadge').innerText = member.badge;
+                    document.getElementById('svgMemberTitle').innerText = member.name;
+                    imgEl.style.opacity = '1';
+                    renderThumbnails();
+                }, 150);
+            }
+        }
+
+        function changeMember(dir) {
+            const nextIdx = (currentMemberIdx + dir + membersData.length) % membersData.length;
+            selectMember(nextIdx);
+        }
+
+        function handleImageError() {
+            const imgEl = document.getElementById('memberImage');
+            const svgFallback = document.getElementById('svgFallback');
+            if (imgEl) imgEl.classList.add('hidden');
+            if (svgFallback) svgFallback.classList.remove('hidden');
+        }
+
+        setInterval(() => { changeMember(1); }, 5500);
+
+        function toggleAudio(e) {
+            if (e) e.stopPropagation();
+            if (audio.paused) {
+                audio.play();
+                if (playBtnIcon) playBtnIcon.className = 'fa-solid fa-pause';
+            } else {
+                audio.pause();
+                if (playBtnIcon) playBtnIcon.className = 'fa-solid fa-play ml-0.5';
+            }
+        }
+
+        function adjustVolume(val) { if (audio) audio.volume = val; }
+
+        function openBiasModal() { document.getElementById('biasModal').classList.remove('hidden'); }
+        function closeBiasModal() { document.getElementById('biasModal').classList.add('hidden'); }
+
+        const canvas = document.getElementById('stageCanvas');
+        const ctx = canvas ? canvas.getContext('2d') : null;
+        let particles = [];
+
+        function resizeCanvas() {
+            if (canvas) { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor(x, y, color, type = 'confetti') {
+                this.x = x; this.y = y; this.color = color; this.type = type;
+                this.size = type === 'confetti' ? Math.random() * 7 + 4 : Math.random() * 4 + 2;
+                this.vx = (Math.random() - 0.5) * (type === 'firework' ? 12 : 5);
+                this.vy = type === 'firework' ? (Math.random() - 0.5) * 12 : Math.random() * 3 + 2;
+                this.rotation = Math.random() * 360; this.rotSpeed = (Math.random() - 0.5) * 8;
+                this.opacity = 1; this.gravity = type === 'firework' ? 0.15 : 0.04;
+            }
+            update() {
+                this.x += this.vx; this.y += this.vy; this.vy += this.gravity; this.rotation += this.rotSpeed;
+                if (this.type === 'firework') this.opacity -= 0.015;
+            }
+            draw() {
+                if (!ctx) return;
+                ctx.save(); ctx.globalAlpha = this.opacity; ctx.translate(this.x, this.y);
+                ctx.rotate((this.rotation * Math.PI) / 180); ctx.fillStyle = this.color;
+                if (this.type === 'confetti') ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size / 2);
+                else { ctx.beginPath(); ctx.arc(0, 0, this.size, 0, Math.PI * 2); ctx.fill(); }
+                ctx.restore();
+            }
+        }
+
+        function triggerConfetti() {
+            const colors = ['#FF0033', '#FF2A75', '#E0E6ED', '#FFFFFF', '#FFD700'];
+            for (let i = 0; i < 90; i++) particles.push(new Particle(Math.random() * (canvas ? canvas.width : window.innerWidth), -20, colors[Math.floor(Math.random() * colors.length)], 'confetti'));
+        }
+
+        function triggerFireworks() {
+            const colors = ['#FF0033', '#FF2A75', '#FFD700', '#00F0FF', '#FFFFFF'];
+            const w = canvas ? canvas.width : window.innerWidth;
+            const h = canvas ? canvas.height : window.innerHeight;
+            const x = Math.random() * (w * 0.6) + (w * 0.2);
+            const y = Math.random() * (h * 0.4) + (h * 0.2);
+            for (let i = 0; i < 70; i++) particles.push(new Particle(x, y, colors[Math.floor(Math.random() * colors.length)], 'firework'));
+        }
+
+        function animateCanvas() {
+            if (ctx && canvas) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (let i = particles.length - 1; i >= 0; i--) {
+                    particles[i].update(); particles[i].draw();
+                    if (particles[i].y > canvas.height || particles[i].opacity <= 0) particles.splice(i, 1);
+                }
+            }
+            requestAnimationFrame(animateCanvas);
+        }
+
+        window.onload = function() {
+            selectMember(0);
+            animateCanvas();
+        };
+    </script>
+</body>
+</html>
