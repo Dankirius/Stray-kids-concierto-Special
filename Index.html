@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stray Kids Special Live Concert - Dedicated Edition</title>
 
+    <!-- ÍCONO DE LA PÁGINA -->
     <link rel="icon" type="image/jpeg" href="./icom.jpg">
+    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -48,7 +50,6 @@
             user-select: none;
         }
 
-        /* Concert Glass Panels */
         .glass-concert {
             background: rgba(12, 14, 20, 0.88);
             backdrop-filter: blur(20px);
@@ -56,19 +57,10 @@
             box-shadow: 0 0 35px rgba(255, 0, 51, 0.2);
         }
 
-        .text-glow-red {
-            text-shadow: 0 0 12px #FF0033, 0 0 25px #FF0033;
-        }
+        .text-glow-red { text-shadow: 0 0 12px #FF0033, 0 0 25px #FF0033; }
+        .text-glow-pink { text-shadow: 0 0 12px #FF2A75, 0 0 25px #FF2A75; }
+        .text-glow-white { text-shadow: 0 0 10px #FFFFFF, 0 0 20px #FFFFFF; }
 
-        .text-glow-pink {
-            text-shadow: 0 0 12px #FF2A75, 0 0 25px #FF2A75;
-        }
-
-        .text-glow-white {
-            text-shadow: 0 0 10px #FFFFFF, 0 0 20px #FFFFFF;
-        }
-
-        /* Stage Spotlights */
         .spotlight-beam {
             position: absolute;
             top: -5%;
@@ -97,7 +89,6 @@
             100% { transform: rotate(35deg); }
         }
 
-        /* LED Screen Scanlines */
         .led-screen-effect::after {
             content: "";
             position: absolute;
@@ -108,7 +99,6 @@
             z-index: 10;
         }
 
-        /* Holographic Love Card Effect */
         .holo-card {
             background: linear-gradient(135deg, rgba(255, 0, 51, 0.25), rgba(255, 42, 117, 0.25), rgba(0, 240, 255, 0.2), rgba(255, 215, 0, 0.2));
             background-size: 300% 300%;
@@ -122,7 +112,6 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Pulse Button Glow */
         .btn-glow-bias {
             box-shadow: 0 0 25px #FF2A75, inset 0 0 10px #FF0033;
             animation: pulseGlow 2s infinite alternate;
@@ -134,15 +123,130 @@
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between relative bg-skz-bg" onclick="enableAudioOnInteraction()">
+<body class="min-h-screen flex flex-col justify-between relative bg-skz-bg">
 
-    <!-- AUDIO "After You.mp3" DE LA MISMA CARPETA -->
-    <audio id="bg-music" src="./After You.mp3" autoplay loop preload="auto"></audio>
+    <!-- AUDIO "After You.mp3" -->
+    <audio id="bg-music" src="./After You.mp3" loop preload="auto"></audio>
 
-    <!-- STAGE LIGHTS / LUCES DE CONCIERTO -->
+    <!-- PANTALLA DE INICIO (PARA GARANTIZAR REPRODUCCIÓN AUTOMÁTICA DE AUDIO) -->
+    <div id="startOverlay" class="fixed inset-0 z-50 bg-black/95 flex flex-col items-center justify-center p-6 text-center transition-opacity duration-500">
+        <div class="w-24 h-24 rounded-3xl overflow-hidden border-2 border-skz-pink shadow-2xl shadow-skz-red/80 mb-6 animate-bounce">
+            <img src="./icom.jpg" alt="SKZ Logo" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/100x100/FF0033/FFF?text=SKZ'">
+        </div>
+        <h1 class="font-orbitron font-black text-3xl sm:text-5xl text-glow-red tracking-widest mb-3">STRAY KIDS CONCERT</h1>
+        <p class="font-rajdhani text-sm sm:text-base text-skz-pink font-bold tracking-wider mb-8">EDICIÓN ESPECIAL • "AFTER YOU"</p>
+        
+        <button onclick="startConcert()" class="py-5 px-10 bg-gradient-to-r from-skz-red via-skz-pink to-red-600 rounded-2xl font-orbitron font-extrabold text-base tracking-widest text-white btn-glow-bias transition active:scale-95 flex items-center gap-3">
+            <i class="fa-solid fa-play text-xl"></i>
+            ENTRAR AL CONCIERTO
+        </button>
+    </div>
+
+    <!-- STAGE LIGHTS -->
     <div class="fixed inset-0 pointer-events-none overflow-hidden z-10">
         <div class="spotlight-beam" style="left: 10%; animation-delay: 0s;"></div>
         <div class="spotlight-beam beam-pink" style="left: 30%; animation-delay: -2s;"></div>
         <div class="spotlight-beam beam-cyan" style="left: 50%; animation-delay: -1s;"></div>
         <div class="spotlight-beam beam-pink" style="left: 70%; animation-delay: -3.5s;"></div>
-        <div class="spotlight-beam" style="left:
+        <div class="spotlight-beam" style="left: 90%; animation-delay: -1.5s;"></div>
+    </div>
+
+    <!-- BACKGROUND CANVAS -->
+    <canvas id="stageCanvas" class="fixed inset-0 w-full h-full z-0 pointer-events-none"></canvas>
+
+    <!-- HEADER -->
+    <header class="relative z-20 w-full p-4 md:p-5 flex justify-between items-center glass-concert border-b border-skz-red/40">
+        <div class="flex items-center space-x-3">
+            <div class="w-12 h-12 bg-gradient-to-br from-skz-red to-skz-pink rounded-xl flex items-center justify-center font-orbitron font-black text-2xl text-white shadow-lg shadow-skz-red/60 overflow-hidden">
+                <img src="./icom.jpg" alt="Icon" class="w-full h-full object-cover" onerror="this.remove()">
+            </div>
+            <div>
+                <h1 class="font-orbitron font-black text-lg md:text-2xl tracking-widest text-glow-white">STRAY KIDS STADIUM TOUR</h1>
+                <p class="text-xs font-rajdhani text-skz-pink tracking-widest uppercase font-bold">LIVE STAGE • "AFTER YOU" SPECIAL EDITION</p>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-3">
+            <div class="flex items-center space-x-2 bg-black/70 px-4 py-2 rounded-full border border-red-500/50">
+                <span class="w-3 h-3 rounded-full bg-red-600 animate-ping"></span>
+                <span class="text-xs font-orbitron text-red-400 tracking-wider font-bold">EN VIVO</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN INTERFACE -->
+    <main class="relative z-20 grid grid-cols-1 lg:grid-cols-12 gap-6 p-4 md:p-8 max-w-7xl mx-auto w-full my-auto items-center">
+
+        <!-- STAGE CENTRAL LED SCREEN (8 COLS) -->
+        <section class="lg:col-span-8 flex flex-col gap-4">
+            <div class="glass-concert rounded-3xl p-4 md:p-6 border-2 border-skz-red/50 shadow-2xl relative overflow-hidden">
+                
+                <div class="flex justify-between items-center mb-3 px-2 text-xs font-orbitron text-gray-300 border-b border-gray-800 pb-2">
+                    <span class="flex items-center gap-2">
+                        <i class="fa-solid fa-camera-retro text-skz-pink"></i> STAGE MAIN SCREEN • OT8
+                    </span>
+                    <span class="text-skz-pink font-bold animate-pulse">REPRODUCIENDO: AFTER YOU</span>
+                </div>
+
+                <div class="led-screen-effect relative w-full h-80 sm:h-96 rounded-2xl overflow-hidden bg-black flex items-center justify-center border border-gray-800">
+                    <div id="memberDisplayContainer" class="w-full h-full relative">
+                        <img id="memberImage" 
+                             src="" 
+                             alt="Stray Kids Member" 
+                             onerror="handleImageError()"
+                             class="w-full h-full object-cover transform scale-105 transition-all duration-700 filter brightness-110 contrast-105">
+
+                        <div id="svgFallback" class="hidden absolute inset-0 bg-gradient-to-br from-black via-skz-darkRed to-black flex flex-col items-center justify-center p-6 text-center">
+                            <svg class="w-24 h-24 text-skz-pink animate-pulse mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path>
+                            </svg>
+                            <span id="svgMemberTitle" class="font-orbitron text-2xl font-black text-skz-pink tracking-widest text-glow-pink">STRAY KIDS</span>
+                        </div>
+                    </div>
+
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/60 pointer-events-none"></div>
+
+                    <div class="absolute bottom-6 left-6 z-20 text-left">
+                        <span id="memberBadge" class="text-xs font-orbitron bg-gradient-to-r from-skz-red to-skz-pink text-white px-3 py-1 rounded-full font-bold shadow-lg tracking-wider">
+                            BANG CHAN • LEADER
+                        </span>
+                        <h2 id="memberName" class="font-orbitron font-black text-2xl md:text-4xl text-white text-glow-red mt-2">
+                            BANG CHAN (🐺)
+                        </h2>
+                    </div>
+
+                    <div class="absolute right-4 bottom-6 z-20 flex space-x-2">
+                        <button onclick="changeMember(-1)" class="w-10 h-10 rounded-full bg-black/70 hover:bg-skz-pink border border-skz-pink text-white flex items-center justify-center transition active:scale-95">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        <button onclick="changeMember(1)" class="w-10 h-10 rounded-full bg-black/70 hover:bg-skz-pink border border-skz-pink text-white flex items-center justify-center transition active:scale-95">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mt-4 grid grid-cols-8 gap-2 bg-black/50 p-2 rounded-2xl border border-gray-800" id="thumbsContainer"></div>
+
+                <div class="mt-3 bg-black/70 p-3 rounded-2xl border border-gray-800 flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <button id="mainPlayBtn" onclick="toggleAudio(event)" class="w-12 h-12 bg-gradient-to-r from-skz-red to-skz-pink rounded-full flex items-center justify-center text-white text-lg shadow-lg shadow-skz-pink/50 hover:scale-105 transition active:scale-95">
+                            <i class="fa-solid fa-pause" id="playPauseIcon"></i>
+                        </button>
+                        <div>
+                            <h4 class="font-orbitron text-sm font-bold text-white">After You</h4>
+                            <p class="text-xs font-rajdhani text-skz-pink">Stray Kids • Reproduciendo en Concierto</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-3 pr-2">
+                        <i class="fa-solid fa-volume-high text-skz-silver text-xs"></i>
+                        <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="0.8" onchange="adjustVolume(this.value)" class="w-20 sm:w-32 accent-skz-pink cursor-pointer">
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- COLUMNA DERECHA (4 COLS) -->
+        <section class="lg:col-span-4 flex flex-col gap-5">
+            <div class="glass-concert p-6 rounded-3xl text-center flex flex-col items-center border-2 border-skz-pink
