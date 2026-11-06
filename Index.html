@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stray Kids Special Live Concert - Dedicated Edition</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@600;700&family=Dancing+Script:wght@700&family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        skz: {
+                            red: '#FF0033',
+                            darkRed: '#550011',
+                            silver: '#E0E6ED',
+                            neon: '#00F0FF',
+                            pink: '#FF2A75',
+                            gold: '#FFD700',
+                            bg: '#040406'
+                        }
+                    },
+                    fontFamily: {
+                        orbitron: ['Orbitron', 'sans-serif'],
+                        rajdhani: ['Rajdhani', 'sans-serif'],
+                        montserrat: ['Montserrat', 'sans-serif'],
+                        romantic: ['Dancing Script', 'cursive']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #040406;
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            user-select: none;
+        }
+
+        /* Concert Glass Panels */
+        .glass-concert {
+            background: rgba(12, 14, 20, 0.88);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 0, 51, 0.35);
+            box-shadow: 0 0 35px rgba(255, 0, 51, 0.2);
+        }
+
+        .text-glow-red {
+            text-shadow: 0 0 12px #FF0033, 0 0 25px #FF0033;
+        }
+
+        .text-glow-pink {
+            text-shadow: 0 0 12px #FF2A75, 0 0 25px #FF2A75;
+        }
+
+        .text-glow-white {
+            text-shadow: 0 0 10px #FFFFFF, 0 0 20px #FFFFFF;
+        }
+
+        /* Stage Spotlights */
+        .spotlight-beam {
+            position: absolute;
+            top: -5%;
+            width: 140px;
+            height: 110vh;
+            background: linear-gradient(180deg, rgba(255, 0, 51, 0.45) 0%, rgba(255, 0, 51, 0) 85%);
+            transform-origin: top center;
+            filter: blur(14px);
+            pointer-events: none;
+            z-index: 5;
+            animation: beamSwing 5s ease-in-out infinite alternate;
+        }
+
+        .beam-pink {
+            background: linear-gradient(180deg, rgba(255, 42, 117, 0.45) 0%, rgba(255, 42, 117, 0) 85%);
+            animation-duration: 6.5s;
+        }
+
+        .beam-cyan {
+            background: linear-gradient(180deg, rgba(0, 240, 255, 0.35) 0%, rgba(0, 240, 255, 0) 85%);
+            animation-duration: 4.5s;
+        }
+
+        @keyframes beamSwing {
+            0% { transform: rotate(-35deg); }
+            100% { transform: rotate(35deg); }
+        }
+
+        /* LED Screen Scanlines */
+        .led-screen-effect::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.04), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.04));
+            background-size: 100% 4px, 6px 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Holographic Love Card Effect */
+        .holo-card {
+            background: linear-gradient(135deg, rgba(255, 0, 51, 0.25), rgba(255, 42, 117, 0.25), rgba(0, 240, 255, 0.2), rgba(255, 215, 0, 0.2));
+            background-size: 300% 300%;
+            animation: holoShift 5s ease infinite;
+            box-shadow: 0 0 35px rgba(255, 42, 117, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.25);
+        }
+
+        @keyframes holoShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Pulse Button Glow */
+        .btn-glow-bias {
+            box-shadow: 0 0 25px #FF2A75, inset 0 0 10px #FF0033;
+            animation: pulseGlow 2s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 15px #FF0033; transform: scale(1); }
+            100% { shadow: 0 0 30px #FF2A75, 0 0 45px #FF0033; transform: scale(1.03); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between relative bg-skz-bg" onclick="enableAudioOnInteraction()">
+
+    <!-- AUDIO "After Yo.mp3" DE LA MISMA CARPETA -->
+    <audio id="bg-music" src="./After Yo.mp3" autoplay loop preload="auto"></audio>
+
+    <!-- STAGE LIGHTS / LUCES DE CONCIERTO -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-10">
+        <div class="spotlight-beam" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="spotlight-beam beam-pink" style="left: 30%; animation-delay: -2s;"></div>
+        <div class="spotlight-beam beam-cyan" style="left: 50%; animation-delay: -1s;"></div>
+        <div class="spotlight-beam beam-pink" style="left: 70%; animation-delay: -3.5s;"></div>
+        <div class="spotlight-beam" style="left: 90%; animation-delay: -1.5s;"></div>
+    </div>
+
+    <!-- BACKGROUND CANVAS (PIROTECNIA Y CONFETI EN TIEMPO REAL) -->
+    <canvas id="stageCanvas" class="fixed inset-0 w-full h-full z-0 pointer-events-none"></canvas>
+
+    <!-- HEADER DE CONCIERTO -->
+    <header class="relative z-20 w-full p-4 md:p-5 flex justify-between items-center glass-concert border-b border-skz-red/40">
+        <div class="flex items-center space-x-3">
+            <div class="w-12 h-12 bg-gradient-to-br from-skz-red to-skz-pink rounded-xl flex items-center justify-center font-orbitron font-black text-2xl text-white shadow-lg shadow-skz-red/60">
+                SKZ
+            </div>
+            <div>
+                <h1 class="font-orbitron font-black text-lg md:text-2xl tracking-widest text-glow-white">STRAY KIDS STADIUM TOUR</h1>
+                <p class="text-xs font-rajdhani text-skz-pink tracking-widest uppercase font-bold">LIVE STAGE • "AFTER YO" SPECIAL EDITION</p>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-3">
+            <div class="flex items-center space-x-2 bg-black/70 px-4 py-2 rounded-full border border-red-500/50">
+                <span class="w-3 h-3 rounded-full bg-red-600 animate-ping"></span>
+                <span class="text-xs font-orbitron text-red-400 tracking-wider font-bold">EN VIVO</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONCERT INTERFACE -->
+    <main class="relative z-20 grid grid-cols-1 lg:grid-cols-12 gap-6 p-4 md:p-8 max-w-7xl mx-auto w-full my-auto items-center">
+
+        <!-- STAGE CENTRAL LED SCREEN: INTEGRANTES DE STRAY KIDS (8 COLS) -->
+        <section class="lg:col-span-8 flex flex-col gap-4">
+            <div class="glass-concert rounded-3xl p-4 md:p-6 border-2 border-skz-red/50 shadow-2xl relative overflow-hidden">
+                
+                <!-- Concert LED Screen Header -->
+                <div class="flex justify-between items-center mb-3 px-2 text-xs font-orbitron text-gray-300 border-b border-gray-800 pb-2">
+                    <span class="flex items-center gap-2">
+                        <i class="fa-solid fa-camera-retro text-skz-pink"></i> STAGE MAIN SCREEN • OT8
+                    </span>
+                    <span class="text-skz-pink font-bold animate-pulse">REPRODUCIENDO: AFTER YO</span>
+                </div>
+
+                <!-- STAGE DISPLAY WITH STRAY KIDS MEMBERS -->
+                <div class="led-screen-effect relative w-full h-80 sm:h-96 rounded-2xl overflow-hidden bg-black flex items-center justify-center border border-gray-800">
+                    
+                    <!-- Integrated Member Display Container -->
+                    <div id="memberDisplayContainer" class="w-full h-full relative">
+                        <img id="memberImage" 
+                             src="" 
+                             alt="Stray Kids Member" 
+                             onerror="handleImageError()"
+                             class="w-full h-full object-cover transform scale-105 transition-all duration-700 filter brightness-110 contrast-105">
+
+                        <!-- SVG Fallback Display (en caso de error de imagen) -->
+                        <div id="svgFallback" class="hidden absolute inset-0 bg-gradient-to-br from-black via-skz-darkRed to-black flex flex-col items-center justify-center p-6 text-center">
+                            <svg class="w-24 h-24 text-skz-pink animate-pulse mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path>
+                            </svg>
+                            <span id="svgMemberTitle" class="font-orbitron text-2xl font-black text-skz-pink tracking-widest text-glow-pink">STRAY KIDS</span>
+                        </div>
+                    </div>
+
+                    <!-- Overlay Overlay Gradiente Stage -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/60 pointer-events-none"></div>
+
+                    <!-- Member Info Badge Overlay -->
+                    <div class="absolute bottom-6 left-6 z-20 text-left">
+                        <span id="memberBadge" class="text-xs font-orbitron bg-gradient-to-r from-skz-red to-skz-pink text-white px-3 py-1 rounded-full font-bold shadow-lg tracking-wider">
+                            BANG CHAN • LEADER
+                        </span>
+                        <h2 id="memberName" class="font-orbitron font-black text-2xl md:text-4xl text-white text-glow-red mt-2">
+                            BANG CHAN (🐺)
+                        </h2>
+                    </div>
+
+                    <!-- Botones Manuales para Cambiar Integrante -->
+                    <div class="absolute right-4 bottom-6 z-20 flex space-x-2">
+                        <button onclick="changeMember(-1)" class="w-10 h-10 rounded-full bg-black/70 hover:bg-skz-pink border border-skz-pink text-white flex items-center justify-center transition active:scale-95">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        <button onclick="changeMember(1)" class="w-10 h-10 rounded-full bg-black/70 hover:bg-skz-pink border border-skz-pink text-white flex items-center justify-center transition active:scale-95">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- CARUSEL DE MINIATURAS DE LOS 8 INTEGRANTES (OT8) -->
+                <div class="mt-4 grid grid-cols-8 gap-2 bg-black/50 p-2 rounded-2xl border border-gray-800" id="thumbsContainer">
+                    <!-- Generado por JS -->
+                </div>
+
+                <!-- CONTROLES DE REPRODUCCIÓN PARA "After Yo.mp3" -->
+                <div class="mt-3 bg-black/70 p-3 rounded-2xl border border-gray-800 flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <button id="mainPlayBtn" onclick="toggleAudio(event)" class="w-12 h-12 bg-gradient-to-r from-skz-red to-skz-pink rounded-full flex items-center justify-center text-white text-lg shadow-lg shadow-skz-pink/50 hover:scale-105 transition active:scale-95">
+                            <i class="fa-solid fa-pause" id="playPauseIcon"></i>
+                        </button>
+                        <div>
+                            <h4 class="font-orbitron text-sm font-bold text-white">After Yo</h4>
+                            <p class="text-xs font-rajdhani text-skz-pink">Stray Kids • Reproduciendo en Concierto</p>
+                        </div>
+                    </div>
+
+                    <!-- Control de Volumen -->
+                    <div class="flex items-center space-x-3 pr-2">
+                        <i class="fa-solid fa-volume-high text-skz-silver text-xs"></i>
+                        <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="0.8" onchange="adjustVolume(this.value)" class="w-20 sm:w-32 accent-skz-pink cursor-pointer">
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- COLUMNA DERECHA: BOTÓN DE MI BIAS FAVORITO (MI NOVIA) Y EFECTOS (4 COLS) -->
+        <section class="lg:col-span-4 flex flex-col gap-5">
+            
+            <!-- BOTÓN EXCLUSIVO MI BIAS FAVORITO (CARTA NOVIA) -->
+            <div class="glass-concert p-6 rounded-3xl text-center flex flex-col items-center border-2 border-skz-pink relative overflow-hidden group">
+                <div class="w-16 h-16 rounded-full bg-skz-pink/20 border-2 border-skz-pink flex items-center justify-center mb-3 shadow-lg shadow-skz-pink/50 group-hover:scale-110 transition duration-300">
+                    <i class="fa-solid fa-heart-circle-bolt text-3xl text-skz-pink animate-pulse"></i>
+                </div>
+                
+                <h3 class="font-orbitron font-bold text-xl text-white text-glow-pink mb-1">STAY DEDICATION</h3>
+                <p class="text-xs text-gray-300 font-rajdhani mb-5">Carta especial para la reina del concierto 💖</p>
+
+                <!-- BOTÓN PRINCIPAL PARA ABRIR LA CARTA DEDICATORIA -->
+                <button onclick="openBiasModal()" class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-skz-red via-skz-pink to-red-600 text-white font-orbitron font-extrabold text-sm tracking-wider btn-glow-bias transition active:scale-95 flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-envelope-open-text text-lg"></i>
+                    MI BIAS FAVORITO
+                </button>
+            </div>
+
+            <!-- BOTONES DE EFECTOS DE ESCENARIO -->
+            <div class="glass-concert p-5 rounded-3xl flex flex-col gap-3">
+                <span class="text-xs font-orbitron text-gray-400 tracking-wider flex items-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles text-skz-pink"></i> STAGE SPECIAL EFFECTS
+                </span>
+                
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="triggerConfetti()" class="py-3 px-3 bg-gray-900/90 hover:bg-skz-pink/30 border border-skz-pink/40 rounded-xl text-xs font-orbitron flex items-center justify-center gap-2 transition active:scale-95">
+                        <i class="fa-solid fa-ribbon text-skz-pink"></i> CONFETTI
+                    </button>
+                    <button onclick="triggerFireworks()" class="py-3 px-3 bg-gray-900/90 hover:bg-orange-500/30 border border-orange-500/40 rounded-xl text-xs font-orbitron flex items-center justify-center gap-2 transition active:scale-95">
+                        <i class="fa-solid fa-fire text-orange-400"></i> FUEGOS
+                    </button>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- CARTA HOLOGRÁFICA ROMÁNTICA PARA LA NOVIA (MODAL) -->
+    <div id="biasModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 hidden transition-opacity duration-300">
+        <div class="holo-card rounded-3xl p-6 sm:p-8 max-w-md w-full border-2 border-skz-pink relative text-center text-white shadow-2xl">
+            
+            <!-- Botón Cerrar -->
+            <button onclick="closeBiasModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/60 hover:bg-skz-pink text-white flex items-center justify-center border border-gray-600 transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Card Header -->
+            <div class="inline-block px-4 py-1 bg-skz-pink/30 border border-skz-pink rounded-full text-[10px] font-orbitron tracking-widest text-white mb-2">
+                MY ULTIMATE BIAS IN THE ENTIRE WORLD
+            </div>
+            
+            <h2 class="font-orbitron font-black text-2xl text-glow-pink mb-1">PARA MI BIAS FAVORITA 👑❤️</h2>
+            <p class="text-xs font-rajdhani text-gray-300 mb-4">Entre todos los idols del mundo, tú siempre serás mi número uno.</p>
+
+            <!-- CORAZÓN HOLOGRÁFICO CONCIERTO -->
+            <div class="w-full h-32 rounded-2xl bg-gradient-to-r from-red-950/80 via-pink-950/80 to-black border border-skz-pink/50 flex flex-col items-center justify-center relative overflow-hidden shadow-inner my-2">
+                <i class="fa-solid fa-heart text-5xl text-skz-pink animate-pulse drop-shadow-[0_0_15px_rgba(255,42,117,0.8)]"></i>
+                <span class="font-romantic text-2xl text-white mt-1">Stray Kids Live For You</span>
+            </div>
+
+            <!-- TEXTO DE LA DEDICATORIA EDITABLE (PUEDES CAMBIAR EL TEXTO AQUÍ DIRECTAMENTE O EN EL NAVEGADOR) -->
+            <div class="text-left mt-3">
+                <label class="block text-[11px] font-orbitron text-skz-pink mb-1">DEDICATORIA DE AMOR (Puedes editar este texto):</label>
+                <textarea id="biasMessageText" rows="5" class="w-full bg-black/90 border border-skz-pink/50 rounded-xl p-3 text-xs sm:text-sm font-montserrat text-white leading-relaxed placeholder-gray-500 focus:outline-none focus:border-skz-pink resize-none shadow-inner">
+Para el amor de mi vida:
+En este concierto y en todos los escenarios del mundo, tú eres mi Bias Favorita. No hay canción de Stray Kids que supere lo increíble que es estar a tu lado. ¡Te amo infinitamente! 💖✨
+                </textarea>
+            </div>
+
+            <!-- Botones de Acción -->
+            <div class="flex space-x-3 mt-4">
+                <button onclick="saveBiasCard()" class="flex-1 py-3 bg-gradient-to-r from-skz-red to-skz-pink hover:opacity-90 rounded-xl font-orbitron font-bold text-xs tracking-wider transition active:scale-95 shadow-lg shadow-skz-pink/40">
+                    <i class="fa-solid fa-floppy-disk mr-1"></i> GUARDAR CARTA
+                </button>
+                <button onclick="closeBiasModal()" class="px-5 py-3 bg-gray-900 hover:bg-gray-800 rounded-xl font-orbitron font-bold text-xs tracking-wider border border-gray-700 transition">
+                    CERRAR
+                </button>
+            </div>
+
+            <!-- Toast alert -->
+            <p id="saveToast" class="text-[11px] font-orbitron text-green-400 mt-2 opacity-0 transition-opacity duration-300">¡Carta guardada para tu novia! ✨❤️</p>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="relative z-20 w-full p-4 text-center text-xs font-rajdhani text-gray-500 glass-concert border-t border-skz-red/20">
+        <p>STRAY KIDS WORLD TOUR • REPRODUCIENDO "AFTER YO.MP3" • DEDICADO A MI BIAS FAVORITA</p>
+    </footer>
+
+    <!-- CONCERT & MEMBER GALLERY JAVASCRIPT ENGINE -->
+    <script>
+        /* ----------------------------------------------------
+           1. INTEGRANTES DE STRAY KIDS (ARCHIVOS LOCALES EN LA MISMA CARPETA)
+        ---------------------------------------------------- */
+        const membersData = [
+            {
+                name: "BANG CHAN (🐺)",
+                image: "./bangchan.jpg",
+                badge: "BANG CHAN • LEADER & 3RACHA"
+            },
+            {
+                name: "LEE KNOW (🐰)",
+                image: "./leeknow.jpg",
+                badge: "LEE KNOW • DANCE RACHA"
+            },
+            {
+                name: "CHANGBIN (🍕)",
+                image: "./changbin.jpg",
+                badge: "CHANGBIN • RAPPER & 3RACHA"
+            },
+            {
+                name: "HYUNJIN (🥟)",
+                image: "./hyunjin.jpg",
+                badge: "HYUNJIN • DANCE & VISUAL"
+            },
+            {
+                name: "HAN (🐿️)",
+                image: "./han.jpg",
+                badge: "HAN • VOCAL & 3RACHA"
+            },
+            {
+                name: "FELIX (🐥)",
+                image: "./felix.jpg",
+                badge: "FELIX • DEEP VOICE & DANCE"
+            },
+            {
+                name: "SEUNGMIN (🐶)",
+                image: "./seungmin.jpg",
+                badge: "SEUNGMIN • MAIN VOCAL"
+            },
+            {
+                name: "I.N (🦊)",
+                image: "./in.jpg",
+                badge: "I.N • VOCAL & MAKNAE"
+            }
+        ];
+
+        let currentMemberIdx = 0;
+
+        function renderThumbnails() {
+            const container = document.getElementById('thumbsContainer');
+            container.innerHTML = '';
+            membersData.forEach((m, idx) => {
+                const btn = document.createElement('button');
+                btn.className = `h-10 rounded-lg overflow-hidden border ${idx === currentMemberIdx ? 'border-skz-pink scale-105 ring-2 ring-skz-pink' : 'border-gray-700 opacity-60'} transition`;
+                btn.onclick = () => selectMember(idx);
+                btn.innerHTML = `<img src="${m.image}" alt="${m.name}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/100x100/660014/FFF?text=${encodeURIComponent(m.name.split(' ')[0])}'">`;
+                container.appendChild(btn);
+            });
+        }
+
+        function selectMember(idx) {
+            currentMemberIdx = idx;
+            const member = membersData[currentMemberIdx];
+            
+            const imgEl = document.getElementById('memberImage');
+            const svgFallback = document.getElementById('svgFallback');
+
+            svgFallback.classList.add('hidden');
+            imgEl.classList.remove('hidden');
+
+            imgEl.style.opacity = '0.3';
+            setTimeout(() => {
+                imgEl.src = member.image;
+                document.getElementById('memberName').innerText = member.name;
+                document.getElementById('memberBadge').innerText = member.badge;
+                document.getElementById('svgMemberTitle').innerText = member.name;
+                imgEl.style.opacity = '1';
+                renderThumbnails();
+            }, 150);
+        }
+
+        function changeMember(dir) {
+            const nextIdx = (currentMemberIdx + dir + membersData.length) % membersData.length;
+            selectMember(nextIdx);
+        }
+
+        function handleImageError() {
+            document.getElementById('memberImage').classList.add('hidden');
+            document.getElementById('svgFallback').classList.remove('hidden');
+        }
+
+        // Rotación automática de integrantes en pantalla gigante
+        setInterval(() => {
+            changeMember(1);
+        }, 5500);
+
+        /* ----------------------------------------------------
+           2. CONTROL DE AUDIO "After Yo.mp3"
+        ---------------------------------------------------- */
+        const audio = document.getElementById('bg-music');
+        const playBtnIcon = document.getElementById('playPauseIcon');
+        let hasInteracted = false;
+
+        function enableAudioOnInteraction() {
+            if (!hasInteracted) {
+                hasInteracted = true;
+                audio.play().then(() => {
+                    playBtnIcon.className = 'fa-solid fa-pause';
+                }).catch(err => console.log("Autoplay esperando interacción..."));
+            }
+        }
+
+        function toggleAudio(e) {
+            if (e) e.stopPropagation();
+            if (audio.paused) {
+                audio.play();
+                playBtnIcon.className = 'fa-solid fa-pause';
+            } else {
+                audio.pause();
+                playBtnIcon.className = 'fa-solid fa-play ml-0.5';
+            }
+        }
+
+        function adjustVolume(val) {
+            audio.volume = val;
+        }
+
+        /* ----------------------------------------------------
+           3. CARTA DE DEDICATORIA ROMÁNTICA DE NOVIA
+        ---------------------------------------------------- */
+        function openBiasModal() {
+            document.getElementById('biasModal').classList.remove('hidden');
+            loadSavedBiasCard();
+        }
+
+        function closeBiasModal() {
+            document.getElementById('biasModal').classList.add('hidden');
+        }
+
+        function saveBiasCard() {
+            const text = document.getElementById('biasMessageText').value;
+            localStorage.setItem('skz_novia_bias_dedication', text);
+
+            const toast = document.getElementById('saveToast');
+            toast.style.opacity = '1';
+            setTimeout(() => {
+                toast.style.opacity = '0';
+            }, 2500);
+        }
+
+        function loadSavedBiasCard() {
+            const savedText = localStorage.getItem('skz_novia_bias_dedication');
+            if (savedText) {
+                document.getElementById('biasMessageText').value = savedText;
+            }
+        }
+
+        /* ----------------------------------------------------
+           4. CANVAS STAGE ANIMATION (FUEGOS Y CONFETI)
+        ---------------------------------------------------- */
+        const canvas = document.getElementById('stageCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor(x, y, color, type = 'confetti') {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.type = type;
+                this.size = type === 'confetti' ? Math.random() * 7 + 4 : Math.random() * 4 + 2;
+                this.vx = (Math.random() - 0.5) * (type === 'firework' ? 12 : 5);
+                this.vy = type === 'firework' ? (Math.random() - 0.5) * 12 : Math.random() * 3 + 2;
+                this.rotation = Math.random() * 360;
+                this.rotSpeed = (Math.random() - 0.5) * 8;
+                this.opacity = 1;
+                this.gravity = type === 'firework' ? 0.15 : 0.04;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.vy += this.gravity;
+                this.rotation += this.rotSpeed;
+                if (this.type === 'firework') {
+                    this.opacity -= 0.015;
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.translate(this.x, this.y);
+                ctx.rotate((this.rotation * Math.PI) / 180);
+                ctx.fillStyle = this.color;
+
+                if (this.type === 'confetti') {
+                    ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size / 2);
+                } else {
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.restore();
+            }
+        }
+
+        function triggerConfetti() {
+            const colors = ['#FF0033', '#FF2A75', '#E0E6ED', '#FFFFFF', '#FFD700'];
+            for (let i = 0; i < 90; i++) {
+                particles.push(new Particle(
+                    Math.random() * canvas.width,
+                    -20,
+                    colors[Math.floor(Math.random() * colors.length)],
+                    'confetti'
+                ));
+            }
+        }
+
+        function triggerFireworks() {
+            const colors = ['#FF0033', '#FF2A75', '#FFD700', '#00F0FF', '#FFFFFF'];
+            const x = Math.random() * (canvas.width * 0.6) + (canvas.width * 0.2);
+            const y = Math.random() * (canvas.height * 0.4) + (canvas.height * 0.2);
+
+            for (let i = 0; i < 70; i++) {
+                particles.push(new Particle(
+                    x, y,
+                    colors[Math.floor(Math.random() * colors.length)],
+                    'firework'
+                ));
+            }
+        }
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = particles.length - 1; i >= 0; i--) {
+                particles[i].update();
+                particles[i].draw();
+                if (particles[i].y > canvas.height || particles[i].opacity <= 0) {
+                    particles.splice(i, 1);
+                }
+            }
+
+            requestAnimationFrame(animateCanvas);
+        }
+
+        window.onload = function() {
+            selectMember(0);
+            animateCanvas();
+            loadSavedBiasCard();
+            audio.play().catch(() => {});
+        };
+    </script>
+</body>
+</html>
